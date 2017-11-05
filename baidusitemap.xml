@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+
+    
+  <url>
+    <loc>https://cdsama.github.io/index/</loc>
+    <lastmod>2017-11-01T15:47:51.751Z</lastmod>
+    <data>
+        <display>
+        <title>文章目录</title>
+        <pubTime>2017-10-27T10:49:50.000Z</pubTime>
+        
+        <tag>index</tag>
+         
+         
+           
+             
+              <breadCrumb title="summary" url="https://cdsama.github.io/categories/summary/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://cdsama.github.io/ue4-dynamic-load-blueprint-class-from-path/</loc>
+    <lastmod>2017-11-01T15:46:30.052Z</lastmod>
+    <data>
+        <display>
+        <title>【UE4】根据路径动态加载蓝图类的正确方式</title>
+        <pubTime>2016-06-22T14:16:14.000Z</pubTime>
+        
+        <tag>ue4</tag>
+         
+        <tag>blueprint</tag>
+         
+        <tag>load</tag>
+         
+         
+           
+             
+              <breadCrumb title="ue4" url="https://cdsama.github.io/categories/ue4/"/>
+          
+             
+              <breadCrumb title="asset" url="https://cdsama.github.io/categories/ue4/asset/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://cdsama.github.io/vps-transfer-logs/</loc>
+    <lastmod>2017-11-01T15:43:19.660Z</lastmod>
+    <data>
+        <display>
+        <title>VPS转移记录</title>
+        <pubTime>2017-02-18T19:12:05.000Z</pubTime>
+        
+        <tag>vps</tag>
+         
+        <tag>centos</tag>
+         
+        <tag>blogs</tag>
+         
+         
+           
+             
+              <breadCrumb title="vps" url="https://cdsama.github.io/categories/vps/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://cdsama.github.io/ue4-using-renderdoc-to-debug-graphics/</loc>
+    <lastmod>2017-10-31T13:50:49.730Z</lastmod>
+    <data>
+        <display>
+        <title>【UE4】使用RenderDoc来调试渲染</title>
+        <pubTime>2017-10-31T10:37:14.000Z</pubTime>
+        
+        <tag>ue4</tag>
+         
+        <tag>renderdoc</tag>
+         
+        <tag>debug</tag>
+         
+        <tag>graphics</tag>
+         
+         
+           
+             
+              <breadCrumb title="ue4" url="https://cdsama.github.io/categories/ue4/"/>
+          
+             
+              <breadCrumb title="debug" url="https://cdsama.github.io/categories/ue4/debug/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://cdsama.github.io/ue4-avoid-recook-when-ini-changes/</loc>
+    <lastmod>2017-10-31T13:50:49.729Z</lastmod>
+    <data>
+        <display>
+        <title>【UE4】避免因为某些ini配置变动而重新Cook资源</title>
+        <pubTime>2017-10-30T04:07:30.000Z</pubTime>
+        
+        <tag>cook</tag>
+         
+        <tag>ini</tag>
+         
+        <tag>config</tag>
+         
+        <tag>long time</tag>
+         
+        <tag>ue4</tag>
+         
+         
+           
+             
+              <breadCrumb title="ue4" url="https://cdsama.github.io/categories/ue4/"/>
+          
+             
+              <breadCrumb title="cook" url="https://cdsama.github.io/categories/ue4/cook/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+    
+    
+    
+    
+  <url>
+    <loc>https://cdsama.github.io/lets-encrypt/</loc>
+    <lastmod>2017-02-18T19:13:21.624Z</lastmod>
+    <data>
+        <display>
+        <title>Let’s Encrypt! 为博客开启https</title>
+        <pubTime>2016-06-13T13:35:15.000Z</pubTime>
+        
+        <tag>letsencrypt</tag>
+         
+        <tag>ssl</tag>
+         
+        <tag>https</tag>
+         
+        <tag>nginx</tag>
+         
+         
+           
+             
+              <breadCrumb title="nginx" url="https://cdsama.github.io/categories/nginx/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://cdsama.github.io/add-stdfunction-interactive-support-for-lua/</loc>
+    <lastmod>2017-02-18T17:35:43.320Z</lastmod>
+    <data>
+        <display>
+        <title>为Lua添加std::function交互支持</title>
+        <pubTime>2015-09-29T07:51:02.000Z</pubTime>
+        
+        <tag>c++</tag>
+         
+        <tag>lua</tag>
+         
+        <tag>luabridge</tag>
+         
+         
+           
+             
+              <breadCrumb title="programming language" url="https://cdsama.github.io/categories/programming-language/"/>
+          
+             
+              <breadCrumb title="c/c++" url="https://cdsama.github.io/categories/programming-language/c-c/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://cdsama.github.io/windows10-bash-here/</loc>
+    <lastmod>2016-08-23T14:03:05.740Z</lastmod>
+    <data>
+        <display>
+        <title>为Windows10 Bash添加右键菜单“Bash Here”</title>
+        <pubTime>2016-08-05T16:26:00.000Z</pubTime>
+        
+        <tag>windows10</tag>
+         
+        <tag>bash</tag>
+         
+        <tag>regedit</tag>
+         
+         
+           
+             
+              <breadCrumb title="windows10" url="https://cdsama.github.io/categories/windows10/"/>
+          
+             
+              <breadCrumb title="regedit" url="https://cdsama.github.io/categories/windows10/regedit/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://cdsama.github.io/change-vps-os-to-centos-7/</loc>
+    <lastmod>2016-08-05T16:22:31.104Z</lastmod>
+    <data>
+        <display>
+        <title>将VPS系统切换到CentOS7</title>
+        <pubTime>2016-06-11T17:21:39.000Z</pubTime>
+        
+        <tag>linux</tag>
+         
+        <tag>centos7</tag>
+         
+         
+           
+             
+              <breadCrumb title="linux" url="https://cdsama.github.io/categories/linux/"/>
+          
+             
+              <breadCrumb title="centos7" url="https://cdsama.github.io/categories/linux/centos7/"/>
+          
+        </display>
+    </data>
+    </url>
+
+</urlset>
