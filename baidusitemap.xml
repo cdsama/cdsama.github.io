@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+
+    
+    
+    
+    
+  <url>
+    <loc>http://cdsama.com/ue4-dynamic-load-blueprint-class-from-path/</loc>
+    <lastmod>2019-01-14T15:21:02.469Z</lastmod>
+    <data>
+        <display>
+        <title>【UE4】根据路径动态加载蓝图类的正确方式</title>
+        <pubTime>2016-06-22T14:16:14.000Z</pubTime>
+        
+        <tag>ue4</tag>
+         
+        <tag>blueprint</tag>
+         
+        <tag>load</tag>
+         
+         
+           
+             
+              <breadCrumb title="ue4" url="http://cdsama.com/categories/ue4/"/>
+          
+             
+              <breadCrumb title="asset" url="http://cdsama.com/categories/ue4/asset/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://cdsama.com/vertex-color/</loc>
+    <lastmod>2019-01-14T15:21:02.469Z</lastmod>
+    <data>
+        <display>
+        <title>顶点颜色</title>
+        <pubTime>2017-07-07T04:33:20.000Z</pubTime>
+        
+        <tag>vertex color</tag>
+         
+         
+           
+             
+              <breadCrumb title="artist" url="http://cdsama.com/categories/artist/"/>
+          
+             
+              <breadCrumb title="texture" url="http://cdsama.com/categories/artist/texture/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://cdsama.com/ue4-using-renderdoc-to-debug-graphics/</loc>
+    <lastmod>2019-01-14T15:21:02.469Z</lastmod>
+    <data>
+        <display>
+        <title>【UE4】使用RenderDoc来调试渲染</title>
+        <pubTime>2017-10-31T10:37:14.000Z</pubTime>
+        
+        <tag>ue4</tag>
+         
+        <tag>renderdoc</tag>
+         
+        <tag>debug</tag>
+         
+        <tag>graphics</tag>
+         
+         
+           
+             
+              <breadCrumb title="ue4" url="http://cdsama.com/categories/ue4/"/>
+          
+             
+              <breadCrumb title="debug" url="http://cdsama.com/categories/ue4/debug/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://cdsama.com/windows10-bash-here/</loc>
+    <lastmod>2019-01-14T15:21:02.469Z</lastmod>
+    <data>
+        <display>
+        <title>为Windows10 Bash添加右键菜单“Bash Here”</title>
+        <pubTime>2016-08-05T16:26:00.000Z</pubTime>
+        
+        <tag>windows10</tag>
+         
+        <tag>bash</tag>
+         
+        <tag>regedit</tag>
+         
+         
+           
+             
+              <breadCrumb title="windows10" url="http://cdsama.com/categories/windows10/"/>
+          
+             
+              <breadCrumb title="regedit" url="http://cdsama.com/categories/windows10/regedit/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://cdsama.com/vps-transfer-logs/</loc>
+    <lastmod>2019-01-14T15:21:02.469Z</lastmod>
+    <data>
+        <display>
+        <title>VPS转移记录</title>
+        <pubTime>2017-02-18T19:12:05.000Z</pubTime>
+        
+        <tag>vps</tag>
+         
+        <tag>centos</tag>
+         
+        <tag>blogs</tag>
+         
+         
+           
+             
+              <breadCrumb title="vps" url="http://cdsama.com/categories/vps/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://cdsama.com/how-to-bake-id-map/</loc>
+    <lastmod>2019-01-14T15:21:02.468Z</lastmod>
+    <data>
+        <display>
+        <title>烘焙ID贴图</title>
+        <pubTime>2017-07-08T07:15:27.000Z</pubTime>
+        
+        <tag>id map</tag>
+         
+        <tag>blender</tag>
+         
+        <tag>substance painter</tag>
+         
+         
+           
+             
+              <breadCrumb title="artist" url="http://cdsama.com/categories/artist/"/>
+          
+             
+              <breadCrumb title="texture" url="http://cdsama.com/categories/artist/texture/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://cdsama.com/index/</loc>
+    <lastmod>2019-01-14T15:21:02.468Z</lastmod>
+    <data>
+        <display>
+        <title>文章目录</title>
+        <pubTime>2017-10-27T10:49:50.000Z</pubTime>
+        
+        <tag>index</tag>
+         
+         
+           
+             
+              <breadCrumb title="summary" url="http://cdsama.com/categories/summary/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://cdsama.com/lets-encrypt/</loc>
+    <lastmod>2019-01-14T15:21:02.468Z</lastmod>
+    <data>
+        <display>
+        <title>Let’s Encrypt! 为博客开启https</title>
+        <pubTime>2016-06-13T13:35:15.000Z</pubTime>
+        
+        <tag>letsencrypt</tag>
+         
+        <tag>ssl</tag>
+         
+        <tag>https</tag>
+         
+        <tag>nginx</tag>
+         
+         
+           
+             
+              <breadCrumb title="nginx" url="http://cdsama.com/categories/nginx/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://cdsama.com/ue4-avoid-recook-when-ini-changes/</loc>
+    <lastmod>2019-01-14T15:21:02.468Z</lastmod>
+    <data>
+        <display>
+        <title>【UE4】避免因为某些ini配置变动而重新Cook资源</title>
+        <pubTime>2017-10-30T04:07:30.000Z</pubTime>
+        
+        <tag>ue4</tag>
+         
+        <tag>cook</tag>
+         
+        <tag>ini</tag>
+         
+        <tag>config</tag>
+         
+        <tag>long time</tag>
+         
+         
+           
+             
+              <breadCrumb title="ue4" url="http://cdsama.com/categories/ue4/"/>
+          
+             
+              <breadCrumb title="cook" url="http://cdsama.com/categories/ue4/cook/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://cdsama.com/go-procedural-houdini-vex/</loc>
+    <lastmod>2019-01-14T15:21:02.468Z</lastmod>
+    <data>
+        <display>
+        <title>Go Procedural:Houdini VEX Baiscs</title>
+        <pubTime>2018-09-05T02:53:28.000Z</pubTime>
+        
+        <tag>houdini</tag>
+         
+        <tag>vex</tag>
+         
+         
+           
+             
+              <breadCrumb title="software" url="http://cdsama.com/categories/software/"/>
+          
+             
+              <breadCrumb title="houdini" url="http://cdsama.com/categories/software/houdini/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://cdsama.com/add-stdfunction-interactive-support-for-lua/</loc>
+    <lastmod>2019-01-14T15:21:02.467Z</lastmod>
+    <data>
+        <display>
+        <title>为Lua添加std::function交互支持</title>
+        <pubTime>2015-09-29T07:51:02.000Z</pubTime>
+        
+        <tag>c++</tag>
+         
+        <tag>lua</tag>
+         
+        <tag>luabridge</tag>
+         
+         
+           
+             
+              <breadCrumb title="programming language" url="http://cdsama.com/categories/programming-language/"/>
+          
+             
+              <breadCrumb title="c/c++" url="http://cdsama.com/categories/programming-language/c-c/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://cdsama.com/go-procedural-houdini-intro/</loc>
+    <lastmod>2019-01-14T15:21:02.467Z</lastmod>
+    <data>
+        <display>
+        <title>Go Procedural:Houdini简介</title>
+        <pubTime>2017-12-11T08:23:24.000Z</pubTime>
+        
+        <tag>houdini</tag>
+         
+         
+           
+             
+              <breadCrumb title="software" url="http://cdsama.com/categories/software/"/>
+          
+             
+              <breadCrumb title="houdini" url="http://cdsama.com/categories/software/houdini/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://cdsama.com/change-vps-os-to-centos-7/</loc>
+    <lastmod>2019-01-14T15:21:02.467Z</lastmod>
+    <data>
+        <display>
+        <title>将VPS系统切换到CentOS7</title>
+        <pubTime>2016-06-11T17:21:39.000Z</pubTime>
+        
+        <tag>linux</tag>
+         
+        <tag>centos7</tag>
+         
+         
+           
+             
+              <breadCrumb title="linux" url="http://cdsama.com/categories/linux/"/>
+          
+             
+              <breadCrumb title="centos7" url="http://cdsama.com/categories/linux/centos7/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://cdsama.com/go-procedural-houdini-vex-usage/</loc>
+    <lastmod>2019-01-14T15:21:02.467Z</lastmod>
+    <data>
+        <display>
+        <title>Go Procedural:Houdini VEX Attribute Wrangle</title>
+        <pubTime>2018-09-14T07:33:39.000Z</pubTime>
+        
+        <tag>houdini</tag>
+         
+        <tag>vex</tag>
+         
+        <tag>attribute</tag>
+         
+         
+           
+             
+              <breadCrumb title="software" url="http://cdsama.com/categories/software/"/>
+          
+             
+              <breadCrumb title="houdini" url="http://cdsama.com/categories/software/houdini/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+</urlset>

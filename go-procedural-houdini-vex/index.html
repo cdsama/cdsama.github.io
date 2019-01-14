@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222"/>
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2"/>
+
+
+
+
+
+  <meta http-equiv="Cache-Control" content="no-transform"/>
+  <meta http-equiv="Cache-Control" content="no-siteapp"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link rel="stylesheet" href="//fonts.css.network/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext"/>
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2"/>
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0"/>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.7.0',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    fastclick: true,
+    lazyload: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Use vex to manipulate geometry in Sop node Attribute Wrangle. Note：This article does not cover the use of shader">
+<meta name="keywords" content="houdini,vex">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go Procedural:Houdini VEX Baiscs">
+<meta property="og:url" content="http://cdsama.com/go-procedural-houdini-vex/index.html">
+<meta property="og:site_name" content="GameDevLogs">
+<meta property="og:description" content="Use vex to manipulate geometry in Sop node Attribute Wrangle. Note：This article does not cover the use of shader">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-01-14T15:21:02.468Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Go Procedural:Houdini VEX Baiscs">
+<meta name="twitter:description" content="Use vex to manipulate geometry in Sop node Attribute Wrangle. Note：This article does not cover the use of shader">
+
+
+
+
+
+
+  <link rel="canonical" href="http://cdsama.com/go-procedural-houdini-vex/"/>
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Go Procedural:Houdini VEX Baiscs | GameDevLogs</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">GameDevLogs</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Hello Unreal World!</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br/>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br/>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br/>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br/>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br/>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://cdsama.com/go-procedural-houdini-vex/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="CDSAMA"/>
+      <meta itemprop="description" content="Game Developer"/>
+      <meta itemprop="image" content="/images/avatar.jpg"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GameDevLogs"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Go Procedural:Houdini VEX Baiscs
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-09-05 10:53:28" itemprop="dateCreated datePublished" datetime="2018-09-05T10:53:28+08:00">2018-09-05</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-01-14 23:21:02" itemprop="dateModified" datetime="2019-01-14T23:21:02+08:00">2019-01-14</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/software/" itemprop="url" rel="index"><span itemprop="name">software</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/software/houdini/" itemprop="url" rel="index"><span itemprop="name">houdini</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Use vex to manipulate geometry in Sop node <code>Attribute Wrangle</code>.</p>
+<p>Note：This article does not cover the use of shader</p>
+<a id="more"></a>
+<h2 id="Basic-types"><a href="#Basic-types" class="headerlink" title="Basic types"></a>Basic types</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">Type</th>
+<th style="text-align:left">Example</th>
+<th style="text-align:center">Attribute Syntax</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">int</td>
+<td style="text-align:left"><code>21, -3, 0x31, 0b1001, 0212, 1_000_000</code></td>
+<td style="text-align:center">i@name</td>
+</tr>
+<tr>
+<td style="text-align:left">float</td>
+<td style="text-align:left"><code>21.3, -3.2, 1.0, 0.000_000_1</code></td>
+<td style="text-align:center">f@name</td>
+</tr>
+<tr>
+<td style="text-align:left">vector2</td>
+<td style="text-align:left"><code>{0,0}, {0.3,0.5}</code></td>
+<td style="text-align:center">u@name</td>
+</tr>
+<tr>
+<td style="text-align:left">vector</td>
+<td style="text-align:left"><code>{0,0,0}, {0.3,0.5,-0.5}</code></td>
+<td style="text-align:center">v@name</td>
+</tr>
+<tr>
+<td style="text-align:left">vector4</td>
+<td style="text-align:left"><code>{0,0,0,1}, {0.3,0.5,-0.5,0.2}</code></td>
+<td style="text-align:center">p@name</td>
+</tr>
+<tr>
+<td style="text-align:left">array</td>
+<td style="text-align:left"><code>{ 1, 2, 3, 4, 5, 6, 7, 8 }</code></td>
+<td style="text-align:center">type[]@name</td>
+</tr>
+<tr>
+<td style="text-align:left">struct</td>
+<td style="text-align:left"><code>struct Transform {vector p, r, s; } Transform t = { {0,0,0},{0,0,0},{1,1,1} };</code></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:left">matrix2</td>
+<td style="text-align:left"><code>{ {1,0}, {0,1} }</code></td>
+<td style="text-align:center">2@name</td>
+</tr>
+<tr>
+<td style="text-align:left">matrix3</td>
+<td style="text-align:left"><code>{ {1,0,0}, {0,1,0}, {0,0,1} }</code></td>
+<td style="text-align:center">3@name</td>
+</tr>
+<tr>
+<td style="text-align:left">matrix</td>
+<td style="text-align:left"><code>{ {1,0,0,0}, {0,1,0,0}, {0,0,1,0}, {0,0,0,1} }</code></td>
+<td style="text-align:center">4@name</td>
+</tr>
+<tr>
+<td style="text-align:left">string</td>
+<td style="text-align:left"><code>&quot;hello world&quot;</code></td>
+<td style="text-align:center">s@name</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Accessing-geometry-attributes"><a href="#Accessing-geometry-attributes" class="headerlink" title="Accessing geometry attributes"></a>Accessing geometry attributes</h3><p>Read or write the value of an attribute using <code>@attribute_name</code> if it’s a <strong>known attributes</strong>. Otherwise a custom defined attribute should define the type first, or it’s a float as default.<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@foo; <span class="comment">// float</span></span><br><span class="line">v@bar <span class="comment">// vector</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// defined in last node;</span></span><br><span class="line">v@rest_P = @P; </span><br><span class="line"></span><br><span class="line"><span class="comment">////////</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// used in next node:</span></span><br><span class="line"><span class="comment">// @P = @rest_P; // error, rest_p is float as default.</span></span><br><span class="line">@P = v@rest_P <span class="comment">// correct.</span></span><br></pre></td></tr></table></figure></p>
+<p>The following table lists <strong>known attributes</strong> that are automatically cast.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">VEX type</th>
+<th style="text-align:left">Attribute names</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">vector (3 floats)</td>
+<td style="text-align:left">@P, @accel, @center, @dPdx,  @dPdy, @dPdz, @Cd, @N, @scale, @force, @rest, @torque, @up, @uv, @v</td>
+</tr>
+<tr>
+<td style="text-align:left">vector4 (4 floats)</td>
+<td style="text-align:left">@backtrack, @orient, @rot</td>
+</tr>
+<tr>
+<td style="text-align:left">int</td>
+<td style="text-align:left">@id, @ix, @iy, @iz, @nextid, @pstate, @resx, @resy, @resz, @ptnum, @vtxnum, @primnum, @numpt, @numvtx, @numprim, @group_*</td>
+</tr>
+<tr>
+<td style="text-align:left">string</td>
+<td style="text-align:left">@name, @instance</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Accessing-globals"><a href="#Accessing-globals" class="headerlink" title="Accessing globals"></a>Accessing globals</h3><table>
+<thead>
+<tr>
+<th style="text-align:left">Variable</th>
+<th style="text-align:left">Describe</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">@Time</td>
+<td style="text-align:left">Float time ($T)</td>
+</tr>
+<tr>
+<td style="text-align:left">@Frame</td>
+<td style="text-align:left">Float frame ($FF)</td>
+</tr>
+<tr>
+<td style="text-align:left">@SimTime</td>
+<td style="text-align:left">Float simulation time ($ST), only present in DOP contexts.</td>
+</tr>
+<tr>
+<td style="text-align:left">@SimFrame</td>
+<td style="text-align:left">Float simulation frame ($SF), only present in DOP contexts.</td>
+</tr>
+<tr>
+<td style="text-align:left">@TimeInc</td>
+<td style="text-align:left">Float time step (1/$FPS)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Accessing-individual-components-of-a-vector-matrix-or-struct"><a href="#Accessing-individual-components-of-a-vector-matrix-or-struct" class="headerlink" title="Accessing individual components of a vector, matrix or struct"></a>Accessing individual components of a vector, matrix or struct</h3><table>
+<thead>
+<tr>
+<th style="text-align:left">0</th>
+<th style="text-align:left">1</th>
+<th style="text-align:left">2</th>
+<th style="text-align:left">3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">u</td>
+<td style="text-align:left">v</td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">x</td>
+<td style="text-align:left">y</td>
+<td style="text-align:left">z</td>
+<td style="text-align:left">w</td>
+</tr>
+<tr>
+<td style="text-align:left">r</td>
+<td style="text-align:left">g</td>
+<td style="text-align:left">b</td>
+<td style="text-align:left">a</td>
+</tr>
+</tbody>
+</table>
+<p>Examples:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@uv.u, @uv.v;</span><br><span class="line">@P.x, @P.y, @P.z;</span><br><span class="line">@Cd.r, @Cd.g, @Cd.b;</span><br><span class="line">v.xxx == set(v[0], v[0], v[0])</span><br><span class="line">c.bgra == set(c[2], c[1], c[0], c[3])</span><br></pre></td></tr></table></figure></p>
+<h3 id="Assign-value"><a href="#Assign-value" class="headerlink" title="Assign value"></a>Assign value</h3><p>Use <code>{}</code> to composite with only literal value, use <code>set()</code> to composite with variable.<br>Examples:<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">vector</span> v;</span><br><span class="line">v = &#123;<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>&#125;;</span><br><span class="line"><span class="built_in">vector</span> v2 = v;</span><br><span class="line"><span class="comment">//vector v3 = &#123;0, v2.y, 0&#125;; // error</span></span><br><span class="line"><span class="built_in">vector</span> v3 = <span class="built_in">set</span>(<span class="number">0</span>, v2.y, <span class="number">0</span>);</span><br><span class="line">matrix3 m1 = &#123;&#123;<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>&#125;, &#123;<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>&#125;, &#123;<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>&#125;&#125;;</span><br><span class="line">matrix3 m2 = <span class="built_in">set</span>(&#123;<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>&#125;, v, &#123;<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>&#125;);</span><br></pre></td></tr></table></figure></p>
+<h2 id="Array"><a href="#Array" class="headerlink" title="Array"></a>Array</h2><h3 id="Declaring-array-types"><a href="#Declaring-array-types" class="headerlink" title="Declaring array types"></a>Declaring array types</h3><p>To declare an array variable, the general form is <code>member_type var_name[]</code>:<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">float</span>   my_array[];</span><br><span class="line"><span class="comment">// v is a single vector, vector_array is an array of vectors</span></span><br><span class="line"><span class="built_in">vector</span>  v, vector_array[];</span><br><span class="line"><span class="built_in">string</span>  str_array[];</span><br><span class="line"></span><br><span class="line"><span class="comment">// To specify a literal array, use curly braces, with the array members separated by commas:</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">vector</span> an_array[] = &#123; &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;, &#123;<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>&#125;, &#123;<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>&#125; &#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">vector</span>[] rgb_array()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> &#123; &#123;<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>&#125;, &#123;<span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>&#125;, &#123;<span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>&#125; &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//If you specify scalars where a vector is expected, the compiler assigns the scalar value to all components of the vector:</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">vector</span> an_array[] = &#123; <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;;</span><br><span class="line"><span class="comment">// an_array[] == &#123; &#123;1, 1, 1&#125;, &#123;2, 2, 2&#125;, &#123;3, 3, 3&#125; &#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//The array() function creates an array from its arguments.</span></span><br><span class="line"><span class="keyword">int</span> my_array[] = <span class="built_in">array</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//You can use array() to generate an array of any type. To force array() to generate vectors (for example):</span></span><br><span class="line"></span><br><span class="line">v[]@attr_name = <span class="built_in">vector</span>[](<span class="built_in">array</span>(value1, value2, ...));</span><br></pre></td></tr></table></figure></p>
+<h3 id="Accessing-and-setting-array-values"><a href="#Accessing-and-setting-array-values" class="headerlink" title="Accessing and setting array values"></a>Accessing and setting array values</h3><p>Use <code>arrayname[index]</code> to look up a value by its position in the array.<br>Python-style indexing is used. This means negative indices refer to positions from the end of the array.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> nums[] = &#123; <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span> &#125;;</span><br><span class="line"><span class="keyword">int</span> n = nums[<span class="number">10</span>];  <span class="comment">// Returns 0</span></span><br><span class="line"><span class="keyword">int</span> b = nums[<span class="number">-2</span>];  <span class="comment">// Returns 4</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">string</span> strs[] = &#123; &#125;;</span><br><span class="line"><span class="built_in">string</span> s = strs[<span class="number">20</span>];  <span class="comment">// Returns ""</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//You can also assign values using the square brackets notation:</span></span><br><span class="line"><span class="keyword">float</span> nums[] = &#123; &#125;;</span><br><span class="line">nums[<span class="number">0</span>] = <span class="number">3.14</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="Slicing-Arrays"><a href="#Slicing-Arrays" class="headerlink" title="Slicing Arrays"></a>Slicing Arrays</h3><p>The square-brackets can be used to extract sub-arrays using the Python slicing notation.<code>str_name[start:end:step]</code><br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> nums[] = &#123; <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span> &#125;;</span><br><span class="line"><span class="keyword">int</span> start[] = nums[<span class="number">0</span>:<span class="number">2</span>];  <span class="comment">// &#123; 0, 1 &#125;</span></span><br><span class="line"><span class="keyword">int</span> end[] = nums[<span class="number">-2</span>:];  <span class="comment">// &#123; 4, 5 &#125;</span></span><br><span class="line"><span class="keyword">int</span> rev[] = nums[::<span class="number">-1</span>];  <span class="comment">// &#123; 5, 4, 3, 2, 1, 0 &#125;</span></span><br><span class="line"><span class="keyword">int</span> odd[] = nums[<span class="number">1</span>::<span class="number">2</span>]; <span class="comment">// &#123; 1, 3, 5 &#125;</span></span><br></pre></td></tr></table></figure></p>
+<p>The slice function is the equivalent for using the slice-based square brackets notation.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;type&gt;[] slice(&lt;type&gt;s[], <span class="keyword">int</span> start, <span class="keyword">int</span> end)</span><br><span class="line">&lt;type&gt;[] slice(&lt;type&gt;s[], <span class="keyword">int</span> start, <span class="keyword">int</span> end, <span class="keyword">int</span> step)</span><br><span class="line"><span class="comment">// Extracts a sub-array from a larger array.</span></span><br><span class="line"><span class="function"><span class="built_in">string</span>  <span class="title">slice</span><span class="params">(<span class="built_in">string</span> s, <span class="keyword">int</span> hasstart, <span class="keyword">int</span> start, <span class="keyword">int</span> hasend, <span class="keyword">int</span> end, <span class="keyword">int</span> hasstep, <span class="keyword">int</span> step)</span></span></span><br><span class="line">&lt;type&gt;[] slice(&lt;type&gt;array[], int hasstart, int start, int hasend, int end, int hasstep, int step)</span><br><span class="line"></span><br><span class="line"><span class="comment">// Examples</span></span><br><span class="line"><span class="keyword">int</span>[] nums = &#123;<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>, <span class="number">50</span>, <span class="number">60</span>&#125;;</span><br><span class="line">slice(nums, <span class="number">1</span>, <span class="number">3</span>) == &#123;<span class="number">20</span>, <span class="number">30</span>&#125;;  <span class="comment">// nums[1:3]</span></span><br><span class="line">slice(nums, <span class="number">1</span>, <span class="number">-1</span>) == &#123;<span class="number">20</span>, <span class="number">30</span>, <span class="number">30</span>, <span class="number">40</span>, <span class="number">50</span>&#125;;  <span class="comment">// nums[1:-1]</span></span><br><span class="line">slice(nums, <span class="number">0</span>, len(nums), <span class="number">2</span>) == &#123;<span class="number">20</span>, <span class="number">40</span>, <span class="number">60</span>&#125;;  <span class="comment">// nums[0:len(nums):2]</span></span><br><span class="line">slice(nums, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>) == &#123;<span class="number">20</span>, <span class="number">40</span>, <span class="number">60</span>&#125;;  <span class="comment">// nums[::2]</span></span><br></pre></td></tr></table></figure>
+<h3 id="Looping-over-an-array"><a href="#Looping-over-an-array" class="headerlink" title="Looping over an array"></a>Looping over an array</h3><p>Use <code>foreach</code>.<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">foreach ([element_type] value; <span class="built_in">array</span>) statement;</span><br><span class="line">foreach (index, value; <span class="built_in">array</span>) statement;</span><br><span class="line">foreach (<span class="keyword">int</span> index; element_type value; <span class="built_in">array</span>) statement;</span><br><span class="line"></span><br><span class="line"><span class="built_in">string</span> days[] = &#123; <span class="string">"Mon"</span>, <span class="string">"Tue"</span>, <span class="string">"Wed"</span>, <span class="string">"Thu"</span>, <span class="string">"Fri"</span> &#125;;</span><br><span class="line"></span><br><span class="line">foreach (<span class="built_in">string</span> name; days) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%s\n"</span>, name);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">string</span> name2;</span><br><span class="line">foreach (name2; days) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%s\n"</span>, name2);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">foreach (<span class="keyword">int</span> i; <span class="built_in">string</span> name3; days) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Day number %d is %s.\n"</span>, i, name3);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> index; <span class="built_in">string</span> name4;</span><br><span class="line">foreach (index, name4; days) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Day number %d is %s.\n"</span>, index, name4);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="Useful-functions"><a href="#Useful-functions" class="headerlink" title="Useful functions"></a>Useful functions</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> arr[] = &#123;<span class="number">3</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">4</span>&#125;;</span><br><span class="line">len(arr);                       <span class="comment">// 5</span></span><br><span class="line">append(arr, <span class="number">8</span>);                 <span class="comment">// == push</span></span><br><span class="line"><span class="comment">//push(arr, 8);                 // arr == &#123;3, 5, 6, 7, 4, 8&#125;</span></span><br><span class="line">insert(arr, <span class="number">1</span>, <span class="number">2</span>);              <span class="comment">// arr == &#123;3, 2, 5, 6, 7, 4, 8&#125;</span></span><br><span class="line"><span class="keyword">int</span> arr2[] = sort(arr);         <span class="comment">// arr2 == &#123;2, 3, 4, 5, 6, 7, 8&#125;</span></span><br><span class="line"><span class="keyword">int</span> arr3[] = argsort(arr);      <span class="comment">// arr3 == &#123;1, 0, 5, 2, 3, 4, 6&#125;</span></span><br><span class="line"><span class="keyword">int</span> arr4[] = reorder(arr, arr3);<span class="comment">// arr4 == arr2;</span></span><br><span class="line"><span class="keyword">int</span> arr5[] = reverse(arr);      <span class="comment">// arr5 == &#123;8, 4, 7, 6, 5, 2, 3&#125;</span></span><br><span class="line">isvalidindex(arr, <span class="number">3</span>);           <span class="comment">// 1</span></span><br><span class="line">isvalidindex(arr, <span class="number">30</span>);          <span class="comment">// 0</span></span><br><span class="line"><span class="keyword">int</span> v1 = pop(arr);              <span class="comment">// v1 == 8, arr == &#123;3, 2, 5, 6, 7, 4&#125;</span></span><br><span class="line"><span class="keyword">int</span> v2 = pop(arr, <span class="number">2</span>);           <span class="comment">// == removeindex</span></span><br><span class="line"><span class="comment">//int v2 = removeindex(arr, 2); // v2 == 5, arr == &#123;3, 2, 6, 7, 4&#125;          </span></span><br><span class="line"><span class="keyword">int</span> v3 =  removevalue(arr, <span class="number">10</span>); <span class="comment">// v3 == 0;</span></span><br><span class="line"><span class="keyword">int</span> v4 =  removevalue(arr, <span class="number">4</span>);  <span class="comment">// v4 == 1, arr == &#123;3, 2, 6, 7&#125;</span></span><br><span class="line">resize(arr, <span class="number">8</span>);                 <span class="comment">// arr == &#123;3, 2, 6, 7, 0, 0, 0, 0&#125;</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/houdini/" rel="tag"># houdini</a>
+          
+            <a href="/tags/vex/" rel="tag"># vex</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/go-procedural-houdini-intro/" rel="next" title="Go Procedural:Houdini简介">
+                <i class="fa fa-chevron-left"></i> Go Procedural:Houdini简介
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/go-procedural-houdini-vex-usage/" rel="prev" title="Go Procedural:Houdini VEX Attribute Wrangle">
+                Go Procedural:Houdini VEX Attribute Wrangle <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMTYzMy84MTk3"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="CDSAMA"/>
+            
+              <p class="site-author-name" itemprop="name">CDSAMA</p>
+              <p class="site-description motion-element" itemprop="description">Game Developer</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">17</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">33</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="/aHR0cDovL3dlaWJvLmNvbS81dW1tM3I=" title="Weibo &rarr; aHR0cDovL3dlaWJvLmNvbS81dW1tM3I="><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="/aHR0cHM6Ly9naXRodWIuY29tL2Nkc2FtYQ==" title="GitHub &rarr; aHR0cHM6Ly9naXRodWIuY29tL2Nkc2FtYQ=="><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="/aHR0cDovL3N0ZWFtY29tbXVuaXR5LmNvbS9pZC9jZHNhbWE=" title="Steam &rarr; aHR0cDovL3N0ZWFtY29tbXVuaXR5LmNvbS9pZC9jZHNhbWE="><i class="fa fa-fw fa-steam-square"></i>Steam</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="/bWFpbHRvOmNkc2FtYUBnbWFpbC5jb20=" title="Email &rarr; bWFpbHRvOmNkc2FtYUBnbWFpbC5jb20="><i class="fa fa-fw fa-envelope"></i>Email</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Basic-types"><span class="nav-number">1.</span> <span class="nav-text">Basic types</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Accessing-geometry-attributes"><span class="nav-number">1.1.</span> <span class="nav-text">Accessing geometry attributes</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Accessing-globals"><span class="nav-number">1.2.</span> <span class="nav-text">Accessing globals</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Accessing-individual-components-of-a-vector-matrix-or-struct"><span class="nav-number">1.3.</span> <span class="nav-text">Accessing individual components of a vector, matrix or struct</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Assign-value"><span class="nav-number">1.4.</span> <span class="nav-text">Assign value</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Array"><span class="nav-number">2.</span> <span class="nav-text">Array</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Declaring-array-types"><span class="nav-number">2.1.</span> <span class="nav-text">Declaring array types</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Accessing-and-setting-array-values"><span class="nav-number">2.2.</span> <span class="nav-text">Accessing and setting array values</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Slicing-Arrays"><span class="nav-number">2.3.</span> <span class="nav-text">Slicing Arrays</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Looping-over-an-array"><span class="nav-number">2.4.</span> <span class="nav-text">Looping over an array</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Useful-functions"><span class="nav-number">2.5.</span> <span class="nav-text">Useful functions</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 – <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CDSAMA</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <script id="ribbon" size="100" alpha="0.5" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.7.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.7.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+
+
+
+  
+    <script>
+      window.livereOptions = {
+        refer: 'go-procedural-houdini-vex/'
+      };
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script src="/js/src/exturl.js?v=6.7.0"></script>
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

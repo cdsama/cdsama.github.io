@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222"/>
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2"/>
+
+
+
+
+
+  <meta http-equiv="Cache-Control" content="no-transform"/>
+  <meta http-equiv="Cache-Control" content="no-siteapp"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link rel="stylesheet" href="//fonts.css.network/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext"/>
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2"/>
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0"/>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.7.0',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    fastclick: true,
+    lazyload: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="原因Linode有5美元的机器了，内存也比Vultlr大一些，于是决定切换到Linode东京2机房，记录一下全部流程，以供日后参考。">
+<meta name="keywords" content="vps,centos,blogs">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VPS转移记录">
+<meta property="og:url" content="http://cdsama.com/vps-transfer-logs/index.html">
+<meta property="og:site_name" content="GameDevLogs">
+<meta property="og:description" content="原因Linode有5美元的机器了，内存也比Vultlr大一些，于是决定切换到Linode东京2机房，记录一下全部流程，以供日后参考。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-01-14T15:21:02.469Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="VPS转移记录">
+<meta name="twitter:description" content="原因Linode有5美元的机器了，内存也比Vultlr大一些，于是决定切换到Linode东京2机房，记录一下全部流程，以供日后参考。">
+
+
+
+
+
+
+  <link rel="canonical" href="http://cdsama.com/vps-transfer-logs/"/>
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>VPS转移记录 | GameDevLogs</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">GameDevLogs</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Hello Unreal World!</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br/>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br/>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br/>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br/>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br/>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://cdsama.com/vps-transfer-logs/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="CDSAMA"/>
+      <meta itemprop="description" content="Game Developer"/>
+      <meta itemprop="image" content="/images/avatar.jpg"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GameDevLogs"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">VPS转移记录
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-02-19 03:12:05" itemprop="dateCreated datePublished" datetime="2017-02-19T03:12:05+08:00">2017-02-19</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-01-14 23:21:02" itemprop="dateModified" datetime="2019-01-14T23:21:02+08:00">2019-01-14</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/vps/" itemprop="url" rel="index"><span itemprop="name">vps</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><p><span class="exturl" data-url="aHR0cHM6Ly93d3cubGlub2RlLmNvbS8/cj0yYWYyNTA3NDgzYjFmNmEyYWMxMGZjOWY3NTdlNDNhYzFkNTIwNDc3" title="https://www.linode.com/?r=2af2507483b1f6a2ac10fc9f757e43ac1d520477">Linode<i class="fa fa-external-link"></i></span>有5美元的机器了，内存也比Vultlr大一些，于是决定切换到<span class="exturl" data-url="aHR0cHM6Ly93d3cubGlub2RlLmNvbS8/cj0yYWYyNTA3NDgzYjFmNmEyYWMxMGZjOWY3NTdlNDNhYzFkNTIwNDc3" title="https://www.linode.com/?r=2af2507483b1f6a2ac10fc9f757e43ac1d520477">Linode<i class="fa fa-external-link"></i></span><del>东京2机房</del>，记录一下全部流程，以供日后参考。<br><a id="more"></a></p>
+<h2 id="更新：因为一些原因，再次切换"><a href="#更新：因为一些原因，再次切换" class="headerlink" title="更新：因为一些原因，再次切换"></a>更新：因为一些原因，再次切换</h2><p>使用了整快硬盘切换，下次无需再部署环境了。</p>
+<ol>
+<li>两台机器同时开启救援模式。</li>
+<li>通过 Lish 进入Linode 系统后，首先修改 root 密码:<code>passwd</code>。</li>
+<li>输入 root 密码。</li>
+<li><p>输入以下命令启动 SSH 服务。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/ssh start</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在旧机器上输入命令开始传输硬盘。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dd <span class="keyword">if</span>=/dev/sda | ssh root@123.45.67.89 <span class="string">"dd of=/dev/sda"</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>传输完毕，重启即可。</p>
+</li>
+</ol>
+<h2 id="配置VPS和一些服务"><a href="#配置VPS和一些服务" class="headerlink" title="配置VPS和一些服务"></a>配置VPS和一些服务</h2><p>系统还是习惯了Centos7，也不用来做开发，不打算换成Ubuntu了,不用学太多东西，毕竟也不是从事相关方面工作，专注核心内容吧。所以，以下内容及命令均基于Centos7。</p>
+<h3 id="切换内核并开启BBR"><a href="#切换内核并开启BBR" class="headerlink" title="切换内核并开启BBR"></a>切换内核并开启BBR</h3><p>阅读<span class="exturl" data-url="aHR0cHM6Ly90ZWRkeXN1bi5jb20vNDg5Lmh0bWw=" title="https://teddysun.com/489.html">这篇博文<i class="fa fa-external-link"></i></span>按照说明进行操作，以下是部分摘抄。</p>
+<h4 id="内核升级方法"><a href="#内核升级方法" class="headerlink" title="内核升级方法"></a>内核升级方法</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum --enablerepo=elrepo-kernel -y install kernel-ml kernel-ml-devel</span><br><span class="line">grub2-set-default 0</span><br><span class="line">/usr/sbin/update-grub</span><br></pre></td></tr></table></figure>
+<p>完成后，去<span class="exturl" data-url="aHR0cHM6Ly93d3cubGlub2RlLmNvbS8/cj0yYWYyNTA3NDgzYjFmNmEyYWMxMGZjOWY3NTdlNDNhYzFkNTIwNDc3" title="https://www.linode.com/?r=2af2507483b1f6a2ac10fc9f757e43ac1d520477">Linode<i class="fa fa-external-link"></i></span>后台把内核切换成Grub2，重启即可。</p>
+<h4 id="开启并验证BBR"><a href="#开启并验证BBR" class="headerlink" title="开启并验证BBR"></a>开启并验证BBR</h4><p>使用root用户登录<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget --no-check-certificate https://github.com/teddysun/across/raw/master/bbr.sh</span><br><span class="line">chmod +x bbr.sh</span><br><span class="line">./bbr.sh</span><br></pre></td></tr></table></figure></p>
+<p>安装完成后，脚本会提示需要重启 VPS，输入 y 并回车后重启。输入以下命令验证是否成功安装最新内核并开启 TCP BBR：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname -r</span><br></pre></td></tr></table></figure></p>
+<p>查看内核版本，含有 4.9 就表示 OK 了<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sysctl net.ipv4.tcp_available_congestion_control</span><br></pre></td></tr></table></figure></p>
+<p>返回值一般为：<code>net.ipv4.tcp_available_congestion_control = bbr cubic reno</code><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sysctl net.ipv4.tcp_congestion_control</span><br></pre></td></tr></table></figure></p>
+<p>返回值一般为：<code>net.ipv4.tcp_congestion_control = bbr</code><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sysctl net.core.default_qdisc</span><br></pre></td></tr></table></figure></p>
+<p>返回值一般为：<code>net.core.default_qdisc = fq</code><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsmod | grep bbr</span><br></pre></td></tr></table></figure></p>
+<p>返回值有 <code>tcp_bbr</code> 模块即说明bbr已启动。</p>
+<h3 id="安装SS"><a href="#安装SS" class="headerlink" title="安装SS"></a>安装SS</h3><p>阅读<span class="exturl" data-url="aHR0cHM6Ly90ZWRkeXN1bi5jb20vMzQyLmh0bWw=" title="https://teddysun.com/342.html">这篇博文<i class="fa fa-external-link"></i></span>按照说明进行操作</p>
+<h2 id="转移博客"><a href="#转移博客" class="headerlink" title="转移博客"></a>转移博客</h2><p>博客是基于静态网页的，整套系统依赖了nginx nodejs hexo git等，因此需要全部搭建好环境。</p>
+<h3 id="安装OpenResty-nginx-lua"><a href="#安装OpenResty-nginx-lua" class="headerlink" title="安装OpenResty(nginx+lua)"></a>安装OpenResty(nginx+lua)</h3><h4 id="新建www用户"><a href="#新建www用户" class="headerlink" title="新建www用户"></a>新建www用户</h4><p>准备把博客网站之类的放在这个用户下管理。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">adduser www</span><br><span class="line">groupadd www</span><br><span class="line">usermod -G www www</span><br></pre></td></tr></table></figure></p>
+<h4 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install wget readline-devel pcre-devel openssl-devel gcc curl</span><br></pre></td></tr></table></figure>
+<h4 id="下载并安装"><a href="#下载并安装" class="headerlink" title="下载并安装"></a>下载并安装</h4><p>打开<span class="exturl" data-url="aHR0cDovL29wZW5yZXN0eS5vcmcvZW4vZG93bmxvYWQuaHRtbA==" title="http://openresty.org/en/download.html">OpenResty官方下载页面<i class="fa fa-external-link"></i></span>获取最新版的地址，以下具体文件名或路径以本次操作为例。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">wget https://openresty.org/download/openresty-1.11.2.2.tar.gz</span><br><span class="line">tar zxvf openresty-1.11.2.2.tar.gz</span><br><span class="line">cd openresty-1.11.2.2</span><br><span class="line">./configure --user=www --group=www --prefix=/usr/local --with-http_stub_status_module --with-http_ssl_module --with-http_gzip_static_module --with-ipv6 --with-http_sub_module --with-pcre-jit --with-http_iconv_module -j4 &amp;&amp; make &amp;&amp; make install</span><br><span class="line">ln -s /usr/local/nginx/sbin/nginx /usr/local/bin/nginx</span><br></pre></td></tr></table></figure></p>
+<h4 id="设置服务和开机启动"><a href="#设置服务和开机启动" class="headerlink" title="设置服务和开机启动"></a>设置服务和开机启动</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/lib/systemd/system</span><br><span class="line">vi nginx.service</span><br><span class="line">&lt;i&gt;&lt;Paste&gt;</span><br><span class="line">[Unit]</span><br><span class="line">Description=Nginx an HTTP and reverse proxy server.</span><br><span class="line">After=network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=forking</span><br><span class="line">ExecStart=/usr/local/bin/nginx</span><br><span class="line">ExecStop=/usr/local/bin/nginx -s stop</span><br><span class="line">ExecReload=/usr/local/bin/nginx -s reload</span><br><span class="line">PrivateTmp=true</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br><span class="line">&lt;/Paste&gt;</span><br><span class="line">&lt;Esc&gt;&lt;:&gt;&lt;x&gt;&lt;Enter&gt;</span><br><span class="line">systemctl enable nginx</span><br><span class="line">systemctl start nginx</span><br></pre></td></tr></table></figure>
+<h3 id="安装最新版本的git"><a href="#安装最新版本的git" class="headerlink" title="安装最新版本的git"></a>安装最新版本的git</h3><p>在<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2dpdC9naXQvcmVsZWFzZXM=" title="https://github.com/git/git/releases">这个页面<i class="fa fa-external-link"></i></span>找到最新版地址。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">wget https://github.com/git/git/archive/v2.11.1.tar.gz</span><br><span class="line">mv v2.11.1.tar.gz git-v2.11.1.tar.gz</span><br><span class="line">yum remove git</span><br><span class="line">make prefix=/usr/<span class="built_in">local</span>/git all</span><br><span class="line">make prefix=/usr/<span class="built_in">local</span>/git install</span><br><span class="line">ln -s /usr/<span class="built_in">local</span>/git/bin/git /usr/<span class="built_in">local</span>/bin/git</span><br></pre></td></tr></table></figure></p>
+<h4 id="新建git用户和组"><a href="#新建git用户和组" class="headerlink" title="新建git用户和组"></a>新建git用户和组</h4><h3 id="安装nodejs"><a href="#安装nodejs" class="headerlink" title="安装nodejs"></a>安装nodejs</h3><h4 id="安装Node-Version-Manager"><a href="#安装Node-Version-Manager" class="headerlink" title="安装Node Version Manager"></a>安装Node Version Manager</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh | NVM_DIR=/usr/<span class="built_in">local</span>/nvm bash</span><br><span class="line"><span class="built_in">source</span> ~/.bashrc</span><br></pre></td></tr></table></figure>
+<h4 id="安装Node-Lts-version"><a href="#安装Node-Lts-version" class="headerlink" title="安装Node Lts version"></a>安装Node Lts version</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nvm install --lts</span><br><span class="line">nvm use --lts</span><br></pre></td></tr></table></figure>
+<h3 id="安装Hexo"><a href="#安装Hexo" class="headerlink" title="安装Hexo"></a>安装Hexo</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br></pre></td></tr></table></figure>
+<h3 id="转移HTTPS证书和DNS-ip"><a href="#转移HTTPS证书和DNS-ip" class="headerlink" title="转移HTTPS证书和DNS ip"></a>转移HTTPS证书和DNS ip</h3><p>先在DNS服务商那里转移ip。<br>按照<span class="exturl" data-url="aHR0cHM6Ly9ibG9nLndhbGtjZC5jb20vbGV0cy1lbmNyeXB0Lw==" title="https://blog.walkcd.com/lets-encrypt/">这篇文章<i class="fa fa-external-link"></i></span>重新安装lets-encrypt,并申请证书。<br>添加dhparam。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl dhparam -out /home/www/dhparam.pem 2048</span><br></pre></td></tr></table></figure></p>
+<p>完毕后转移nginx配置文件按照原路径到新vps下</p>
+<h3 id="安装Gogs-A-painless-self-hosted-Git-service"><a href="#安装Gogs-A-painless-self-hosted-Git-service" class="headerlink" title="安装Gogs(A painless self-hosted Git service)"></a>安装Gogs(A painless self-hosted Git service)</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">wget https://dl.gogs.io/gogs_v0.9.141_linux_amd64.tar.gz</span><br><span class="line">tar zxvf gogs_v0.9.141_linux_amd64.tar.gz</span><br><span class="line">mv gogs /usr/<span class="built_in">local</span>/gogs</span><br><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/gogs</span><br><span class="line">./gogs web</span><br></pre></td></tr></table></figure>
+<p>创建gogs服务并设置成开机启动<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">vi /usr/lib/systemd/system/gogs.service</span><br><span class="line">&lt;i&gt;&lt;Paste&gt;</span><br><span class="line">[Unit]</span><br><span class="line">Description=Gogs (Go Git Service)</span><br><span class="line">After=syslog.target</span><br><span class="line">After=network.target</span><br><span class="line">#After=mysqld.service</span><br><span class="line">#After=postgresql.service</span><br><span class="line">#After=memcached.service</span><br><span class="line">#After=redis.service</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line"># Modify these two values and uncomment them if you have</span><br><span class="line"># repos with lots of files and get an HTTP error 500 because</span><br><span class="line"># of that</span><br><span class="line">###</span><br><span class="line">#LimitMEMLOCK=infinity</span><br><span class="line">#LimitNOFILE=65535</span><br><span class="line">#Type=forking</span><br><span class="line">User=www</span><br><span class="line">Group=www</span><br><span class="line">WorkingDirectory=/usr/local/gogs</span><br><span class="line">ExecStart=/usr/local/gogs/gogs web</span><br><span class="line">Restart=always</span><br><span class="line">Environment=USER=www HOME=/home/www</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br><span class="line">&lt;/Paste&gt;</span><br><span class="line">&lt;Esc&gt;&lt;:&gt;&lt;x&gt;&lt;Enter&gt;</span><br><span class="line">systemctl enable gogs</span><br><span class="line">systemctl start gogs</span><br></pre></td></tr></table></figure></p>
+<h3 id="配置自动部署博客"><a href="#配置自动部署博客" class="headerlink" title="配置自动部署博客"></a>配置自动部署博客</h3><h4 id="新建项目并提交"><a href="#新建项目并提交" class="headerlink" title="新建项目并提交"></a>新建项目并提交</h4><p>把本地的博客git更换新地址并提交到gogs。</p>
+<h4 id="测试并添加githook"><a href="#测试并添加githook" class="headerlink" title="测试并添加githook"></a>测试并添加githook</h4><p>先克隆一个用于生成网站的本地仓库。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> <span class="variable">$&#123;REMOTE_REP&#125;</span> <span class="variable">$&#123;BLOG_GENERATE_REP&#125;</span></span><br><span class="line"><span class="built_in">cd</span> <span class="variable">$&#123;BLOG_GENERATE_REP&#125;</span></span><br><span class="line">npm install hexo --save</span><br><span class="line">npm install hexo-generator-archive --save</span><br><span class="line">npm install hexo-generator-baidu-sitemap --save</span><br><span class="line">npm install hexo-generator-category --save</span><br><span class="line">npm install hexo-generator-index --save</span><br><span class="line">npm install hexo-generator-search --save</span><br><span class="line">npm install hexo-generator-sitemap --save</span><br><span class="line">npm install hexo-generator-tag --save</span><br><span class="line">npm install hexo-pagination --save</span><br><span class="line">npm install hexo-renderer-ejs --save</span><br><span class="line">npm install hexo-renderer-marked --save</span><br><span class="line">npm install hexo-renderer-stylus --save</span><br><span class="line">npm install hexo-server --save</span><br></pre></td></tr></table></figure></p>
+<p>在仓库设置里添加post-receive的钩子。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/bin/bash -l</span></span><br><span class="line"><span class="built_in">unset</span> $(git rev-parse --<span class="built_in">local</span>-env-vars)</span><br><span class="line"><span class="built_in">export</span> NVM_DIR=<span class="string">"/usr/local/nvm"</span></span><br><span class="line">[ -s <span class="string">"<span class="variable">$NVM_DIR</span>/nvm.sh"</span> ] &amp;&amp; \. <span class="string">"<span class="variable">$NVM_DIR</span>/nvm.sh"</span>  <span class="comment"># This loads nvm</span></span><br><span class="line">nvm use --lts</span><br><span class="line"><span class="built_in">cd</span> <span class="variable">$&#123;BLOG_GENERATE_REP&#125;</span></span><br><span class="line">git pull</span><br><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">rm -rf <span class="variable">$&#123;PUBLIC_WWW&#125;</span>/*</span><br><span class="line">cp -rf <span class="variable">$&#123;GENERATED_PUBLIC&#125;</span>/* <span class="variable">$&#123;PUBLIC_WWW&#125;</span></span><br></pre></td></tr></table></figure></p>
+<p>提交新文件就会更新博客网站了。</p>
+<h2 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h2><p>完毕撒花~睡觉~</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/vps/" rel="tag"># vps</a>
+          
+            <a href="/tags/centos/" rel="tag"># centos</a>
+          
+            <a href="/tags/blogs/" rel="tag"># blogs</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/windows10-bash-here/" rel="next" title="为Windows10 Bash添加右键菜单“Bash Here”">
+                <i class="fa fa-chevron-left"></i> 为Windows10 Bash添加右键菜单“Bash Here”
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/vertex-color/" rel="prev" title="顶点颜色">
+                顶点颜色 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMTYzMy84MTk3"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="CDSAMA"/>
+            
+              <p class="site-author-name" itemprop="name">CDSAMA</p>
+              <p class="site-description motion-element" itemprop="description">Game Developer</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">17</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">33</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="/aHR0cDovL3dlaWJvLmNvbS81dW1tM3I=" title="Weibo &rarr; aHR0cDovL3dlaWJvLmNvbS81dW1tM3I="><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="/aHR0cHM6Ly9naXRodWIuY29tL2Nkc2FtYQ==" title="GitHub &rarr; aHR0cHM6Ly9naXRodWIuY29tL2Nkc2FtYQ=="><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="/aHR0cDovL3N0ZWFtY29tbXVuaXR5LmNvbS9pZC9jZHNhbWE=" title="Steam &rarr; aHR0cDovL3N0ZWFtY29tbXVuaXR5LmNvbS9pZC9jZHNhbWE="><i class="fa fa-fw fa-steam-square"></i>Steam</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="/bWFpbHRvOmNkc2FtYUBnbWFpbC5jb20=" title="Email &rarr; bWFpbHRvOmNkc2FtYUBnbWFpbC5jb20="><i class="fa fa-fw fa-envelope"></i>Email</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#原因"><span class="nav-number">1.</span> <span class="nav-text">原因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更新：因为一些原因，再次切换"><span class="nav-number">2.</span> <span class="nav-text">更新：因为一些原因，再次切换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置VPS和一些服务"><span class="nav-number">3.</span> <span class="nav-text">配置VPS和一些服务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#切换内核并开启BBR"><span class="nav-number">3.1.</span> <span class="nav-text">切换内核并开启BBR</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#内核升级方法"><span class="nav-number">3.1.1.</span> <span class="nav-text">内核升级方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#开启并验证BBR"><span class="nav-number">3.1.2.</span> <span class="nav-text">开启并验证BBR</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装SS"><span class="nav-number">3.2.</span> <span class="nav-text">安装SS</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#转移博客"><span class="nav-number">4.</span> <span class="nav-text">转移博客</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装OpenResty-nginx-lua"><span class="nav-number">4.1.</span> <span class="nav-text">安装OpenResty(nginx+lua)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#新建www用户"><span class="nav-number">4.1.1.</span> <span class="nav-text">新建www用户</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#准备工作"><span class="nav-number">4.1.2.</span> <span class="nav-text">准备工作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#下载并安装"><span class="nav-number">4.1.3.</span> <span class="nav-text">下载并安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#设置服务和开机启动"><span class="nav-number">4.1.4.</span> <span class="nav-text">设置服务和开机启动</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装最新版本的git"><span class="nav-number">4.2.</span> <span class="nav-text">安装最新版本的git</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#新建git用户和组"><span class="nav-number">4.2.1.</span> <span class="nav-text">新建git用户和组</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装nodejs"><span class="nav-number">4.3.</span> <span class="nav-text">安装nodejs</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装Node-Version-Manager"><span class="nav-number">4.3.1.</span> <span class="nav-text">安装Node Version Manager</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装Node-Lts-version"><span class="nav-number">4.3.2.</span> <span class="nav-text">安装Node Lts version</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装Hexo"><span class="nav-number">4.4.</span> <span class="nav-text">安装Hexo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#转移HTTPS证书和DNS-ip"><span class="nav-number">4.5.</span> <span class="nav-text">转移HTTPS证书和DNS ip</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装Gogs-A-painless-self-hosted-Git-service"><span class="nav-number">4.6.</span> <span class="nav-text">安装Gogs(A painless self-hosted Git service)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置自动部署博客"><span class="nav-number">4.7.</span> <span class="nav-text">配置自动部署博客</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#新建项目并提交"><span class="nav-number">4.7.1.</span> <span class="nav-text">新建项目并提交</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#测试并添加githook"><span class="nav-number">4.7.2.</span> <span class="nav-text">测试并添加githook</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结束"><span class="nav-number">5.</span> <span class="nav-text">结束</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 – <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CDSAMA</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <script id="ribbon" size="100" alpha="0.5" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.7.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.7.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+
+
+
+  
+    <script>
+      window.livereOptions = {
+        refer: 'vps-transfer-logs/'
+      };
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script src="/js/src/exturl.js?v=6.7.0"></script>
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
